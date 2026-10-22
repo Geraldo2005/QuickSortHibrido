@@ -11,7 +11,6 @@ TAMANHO = 20_000
 CORTES = [1, 5, 10, 16, 20, 32, 50, 100, 200]
 REPETICOES = 5
 
-
 def medir_tempo(funcao, lista):
     inicio = time.perf_counter()
     funcao(lista)
@@ -19,11 +18,9 @@ def medir_tempo(funcao, lista):
 
     return fim - inicio
 
-
 def main():
     resultados = []
 
-    # Cria as mesmas entradas para todas as versões.
     random.seed(42)
     listas = [
         [random.randint(0, 100_000) for _ in range(TAMANHO)]
@@ -34,7 +31,6 @@ def main():
     print(f"Repetições por configuração: {REPETICOES}")
     print()
 
-    # Mede o Quick Sort puro.
     tempos_puros = []
 
     for lista in listas:
@@ -46,7 +42,6 @@ def main():
     print(f"Quick Sort puro: {media_pura:.6f} segundos")
     print()
 
-    # Mede cada valor de corte.
     for corte in CORTES:
         tempos = []
 
@@ -76,7 +71,6 @@ def main():
             f"Ganho: {ganho_percentual:.2f}%"
         )
 
-    # Salva os resultados em CSV.
     with open(
         "resultados.csv",
         "w",
@@ -97,7 +91,6 @@ def main():
         escritor.writeheader()
         escritor.writerows(resultados)
 
-    # Gera o gráfico dos tempos médios.
     cortes = [resultado["corte"] for resultado in resultados]
     tempos_hibridos = [
         resultado["tempo_medio"] for resultado in resultados
@@ -129,7 +122,6 @@ def main():
     plt.savefig("grafico_cortes.png", dpi=150)
     plt.show()
 
-    # Identifica o corte com menor tempo.
     melhor = min(resultados, key=lambda resultado: resultado["tempo_medio"])
 
     print()
